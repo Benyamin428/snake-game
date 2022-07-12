@@ -34,13 +34,23 @@ class Snake {
         this.spawnFood();
     }
 
+    spawnFood = () => {
+        //Finds a random coordinate between 0 and 464 that is a multiple of 16
+        const randomFoodPositionY = Math.random() * (464 + 16)
+        this.foodPositionY = randomFoodPositionY - (randomFoodPositionY % 16);
+
+        const randomFoodPositionX = Math.random() * (464 + 16)
+        this.foodPositionX = randomFoodPositionX - (randomFoodPositionX % 16);
+
+        gameArea.innerHTML += `<div style="top: ${this.foodPositionY}px; left: ${this.foodPositionX}px" id="food" class="game__snake-food"></div>`;
+    }
+
     moveUp = () => {
         if (this.orientation == "N") {
 
 
             //snake's head UP by 16px 
             this.tail[0].positionY -= 16;
-
 
             document.getElementById("snake").style.top = `${this.tail[0].positionY}px`;
 
