@@ -1,6 +1,11 @@
 const body = document.querySelector("body");
 const gameArea = document.querySelector("#gameArea");
 
+const buttonUp = document.querySelector("#buttonUp");
+const buttonRight = document.querySelector("#buttonRight");
+const buttonDown = document.querySelector("#buttonDown");
+const buttonLeft = document.querySelector("#buttonLeft");
+
 class Snake {
 
     orientation;
@@ -11,8 +16,6 @@ class Snake {
 
     foodPositionX;
     foodPositionY;
-
-    lastKey;
 
     constructor() {
         this.orientation = "";
@@ -26,8 +29,6 @@ class Snake {
 
         this.foodPositionX = 0;
         this.foodPositionY = 0;
-
-        this.lastKey = 0;
     }
 
     origin = () => {
@@ -124,8 +125,6 @@ class Snake {
         this.foodPositionX = 0;
         this.foodPositionY = 0;
 
-        this.lastKey = 0;
-
         gameArea.innerHTML = "";
 
         gameArea.innerHTML = `<h1 class="game__snake-title">Game Over</h1>`;
@@ -214,45 +213,53 @@ const snakeObject = new Snake();
 
 snakeObject.origin();
 
+const dealWithRightMovement = (event) => {
+    if (snakeObject.orientation == "W" || snakeObject.orientation == "E") {
+        return;
+    }
+    snakeObject.orientation = "E";
+    snakeObject.moveRight();
+}
+
+const dealWithLeftMovement = (event) => {
+    if (snakeObject.orientation == "E" || snakeObject.orientation == "W") {
+        return;
+    }
+    snakeObject.orientation = "W";
+    snakeObject.moveLeft();
+}
+
+const dealWithUpMovement = (event) => {
+    if (snakeObject.orientation == "S" || snakeObject.orientation == "N") {
+        return;
+    }
+    snakeObject.orientation = "N";
+    snakeObject.moveUp();
+}
+
+const dealWithDownMovement = (event) =>{
+    if (snakeObject.orientation == "N" || snakeObject.orientation == "S") {
+        return;
+    }
+    snakeObject.orientation = "S";
+    snakeObject.moveDown();
+}
+
 const keyHandler = (event) => {
-
-    console.log(event.which)
-
-    if (event.which == snakeObject.lastKey) return;
 
     switch (event.key) {
 
         case "ArrowRight":
-            if (snakeObject.orientation == "W") {
-                return;
-            }
-            snakeObject.orientation = "E";
-            snakeObject.lastKey = event.which;
-            snakeObject.moveRight();
+            dealWithRightMovement(event);
             break;
         case "ArrowLeft":
-            if (snakeObject.orientation == "E") {
-                return;
-            }
-            snakeObject.orientation = "W";
-            snakeObject.lastKey = event.which;
-            snakeObject.moveLeft();
+            dealWithLeftMovement(event);
             break;
         case "ArrowUp":
-            if (snakeObject.orientation == "S") {
-                return;
-            }
-            snakeObject.orientation = "N";
-            snakeObject.lastKey = event.which;
-            snakeObject.moveUp();
+            dealWithUpMovement(event);
             break;
         case "ArrowDown":
-            if (snakeObject.orientation == "N") {
-                return;
-            }
-            snakeObject.orientation = "S";
-            snakeObject.lastKey = event.which;
-            snakeObject.moveDown();
+            dealWithDownMovement(event);
             break;
         default:
             return;
@@ -260,3 +267,8 @@ const keyHandler = (event) => {
 }
 
 body.addEventListener("keydown", keyHandler);
+
+buttonUp.addEventListener("click", dealWithUpMovement);
+buttonRight.addEventListener("click", dealWithRightMovement);
+buttonDown.addEventListener("click", dealWithDownMovement);
+buttonLeft.addEventListener("click", dealWithLeftMovement);

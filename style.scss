@@ -46,9 +46,14 @@ $food-color: green;
     }
 }
 
+
 @media screen and (min-width: 768px) {
     main {
         display: flex;
         justify-content: center;
+    }
+
+    .buttons {
+        display: none;
     }
 }
