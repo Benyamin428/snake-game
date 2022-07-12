@@ -31,8 +31,8 @@ class Snake {
         //head of snake
         gameArea.innerHTML += `<div style="top: ${this.tail[0].positionY}px; left: ${this.tail[0].positionX}px" id="snake" class="game__snake"></div>`;
         
-        document.getElementById("snake").style.top = `${this.tail[0].positionX}px`;
-        document.getElementById("snake").style.left = `${this.tail[0].positionY}px`;
+        document.getElementById("snake").style.top = `${this.tail[0].positionY}px`;
+        document.getElementById("snake").style.left = `${this.tail[0].positionX}px`;
 
         this.spawnFood();
     }
@@ -50,6 +50,20 @@ class Snake {
         for(let i = 0; i < x.length; i++){
             x[i].style.top = `${this.tail[i+1].positionY}px`;
             x[i].style.left = `${this.tail[i+1].positionX}px`;
+        }
+    }
+
+    detectWallCollision = () => {
+        if (this.tail[0].positionY < 0 || this.tail[0].positionY > 464 || this.tail[0].positionX < 0 || this.tail[0].positionX > 464) {
+            this.gameOver();
+        }
+    } 
+
+    detectSnakeCollisionWithTail = () => {
+        for (let i=1; i<this.tail.length; i++) {
+            if (this.tail[0].positionX == this.tail[i].positionX && this.tail[0].positionY == this.tail[i].positionY) {
+                this.gameOver();
+            }
         }
     }
 
@@ -93,6 +107,25 @@ class Snake {
         }
     }
 
+    gameOver = () => {
+        this.orientation = "";
+        this.tail = [{
+            positionX: (480/2),
+            positionY: (480/2)
+        }]
+
+        this.foodPositionX = 0;
+        this.foodPositionY = 0;
+
+        this.lastKey = 0;
+
+        gameArea.innerHTML = "";
+
+        gameArea.innerHTML = `<h1 class="game__snake-title">Game Over</h1>`;
+
+        setTimeout(() => {this.origin()}, 1000);
+    }
+
     moveUp = () => {
         if (this.orientation == "N") {
 
@@ -105,6 +138,8 @@ class Snake {
             document.getElementById("snake").style.top = `${this.tail[0].positionY}px`;
 
             this.spawnTailAfterFood();
+            this.detectWallCollision();
+            this.detectSnakeCollisionWithTail();
 
             setTimeout(() => {this.moveUp()}, 500);
         }
@@ -121,6 +156,8 @@ class Snake {
             document.getElementById("snake").style.top = `${this.tail[0].positionY}px`;
 
             this.spawnTailAfterFood();
+            this.detectWallCollision();
+            this.detectSnakeCollisionWithTail();
 
             setTimeout(() => {this.moveDown()}, 500);
         }
@@ -137,6 +174,9 @@ class Snake {
             document.getElementById("snake").style.left = `${this.tail[0].positionX}px`;
             
             this.spawnTailAfterFood();
+            this.detectWallCollision();
+            this.detectSnakeCollisionWithTail();
+
 
             setTimeout(() => {this.moveLeft()}, 500);
         }
@@ -153,6 +193,8 @@ class Snake {
             document.getElementById("snake").style.left = `${this.tail[0].positionX}px`;
 
             this.spawnTailAfterFood();
+            this.detectWallCollision();
+            this.detectSnakeCollisionWithTail();
 
             setTimeout(() => {this.moveRight()}, 500);
         }
