@@ -33,10 +33,6 @@ class Snake {
 
     origin = () => {
 
-        //width and height of gameArea will change based on screen size
-        gameArea.style.height = `${this.gameAreaHeight}px`;
-        gameArea.style.width = `${this.gameAreaWidth}px`;
-
         //clear everything
         gameArea.innerHTML = "";
 
@@ -151,7 +147,7 @@ class Snake {
             this.detectWallCollision();
             this.detectSnakeCollisionWithTail();
 
-            setTimeout(() => {this.moveUp()}, 500);
+            setTimeout(() => {this.moveUp()}, 200);
         }
     }
 
@@ -169,7 +165,7 @@ class Snake {
             this.detectWallCollision();
             this.detectSnakeCollisionWithTail();
 
-            setTimeout(() => {this.moveDown()}, 500);
+            setTimeout(() => {this.moveDown()}, 200);
         }
     }
 
@@ -188,7 +184,7 @@ class Snake {
             this.detectSnakeCollisionWithTail();
 
 
-            setTimeout(() => {this.moveLeft()}, 500);
+            setTimeout(() => {this.moveLeft()}, 200);
         }
     }
 
@@ -206,7 +202,7 @@ class Snake {
             this.detectWallCollision();
             this.detectSnakeCollisionWithTail();
 
-            setTimeout(() => {this.moveRight()}, 500);
+            setTimeout(() => {this.moveRight()}, 200);
         }
     }
 
