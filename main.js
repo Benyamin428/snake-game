@@ -5,6 +5,10 @@ class Snake {
 
     orientation;
     tail;
+
+    gameAreaHeight;
+    gameAreaWidth;
+
     foodPositionX;
     foodPositionY;
 
@@ -13,9 +17,12 @@ class Snake {
     constructor() {
         this.orientation = "";
         this.tail = [{
-            positionX: (480/2),
-            positionY: (480/2)
+            positionX: (Math.round(gameArea.getBoundingClientRect().width/16)*16)/2,
+            positionY: (Math.round(gameArea.getBoundingClientRect().height/16)*16)/2
         }]
+
+        this.gameAreaHeight = Math.round(gameArea.getBoundingClientRect().height/16)*16;
+        this.gameAreaWidth = Math.round(gameArea.getBoundingClientRect().width/16)*16
 
         this.foodPositionX = 0;
         this.foodPositionY = 0;
@@ -54,7 +61,7 @@ class Snake {
     }
 
     detectWallCollision = () => {
-        if (this.tail[0].positionY < 0 || this.tail[0].positionY > 464 || this.tail[0].positionX < 0 || this.tail[0].positionX > 464) {
+        if (this.tail[0].positionY < 0 || this.tail[0].positionY > this.gameAreaHeight-16 || this.tail[0].positionX < 0 || this.tail[0].positionX > this.gameAreaWidth-16) {
             this.gameOver();
         }
     } 
@@ -68,11 +75,11 @@ class Snake {
     }
 
     spawnFood = () => {
-        //Finds a random coordinate between 0 and 464 that is a multiple of 16
-        const randomFoodPositionY = Math.random() * (464 + 16)
+        //Finds a random coordinate between 0 and the boundary of the game area that is also a multiple of 16
+        const randomFoodPositionY = Math.random() * (this.gameAreaHeight)
         this.foodPositionY = randomFoodPositionY - (randomFoodPositionY % 16);
 
-        const randomFoodPositionX = Math.random() * (464 + 16)
+        const randomFoodPositionX = Math.random() * (this.gameAreaWidth)
         this.foodPositionX = randomFoodPositionX - (randomFoodPositionX % 16);
 
         gameArea.innerHTML += `<div style="top: ${this.foodPositionY}px; left: ${this.foodPositionX}px" id="food" class="game__snake-food"></div>`;
@@ -110,8 +117,8 @@ class Snake {
     gameOver = () => {
         this.orientation = "";
         this.tail = [{
-            positionX: (480/2),
-            positionY: (480/2)
+            positionX: this.gameAreaWidth/2,
+            positionY: this.gameAreaHeight/2
         }]
 
         this.foodPositionX = 0;

@@ -4,11 +4,6 @@ $font: 'Press Start 2P', cursive;
 
 $food-color: green;
 
-main {
-    display: flex; 
-    justify-content: center;
-}
-
 .game {
     display: grid;
     grid-template-columns: repeat(30, 1rem);
@@ -49,5 +44,11 @@ main {
         font-size: 2.5rem;
         font-family: $font;
     }
+}
 
+@media screen and (min-width: 768px) {
+    main {
+        display: flex;
+        justify-content: center;
+    }
 }
