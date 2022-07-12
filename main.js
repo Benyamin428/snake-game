@@ -33,6 +33,10 @@ class Snake {
 
     origin = () => {
 
+        //width and height of gameArea will change based on screen size
+        gameArea.style.height = `${this.gameAreaHeight}px`;
+        gameArea.style.width = `${this.gameAreaWidth}px`;
+
         //clear everything
         gameArea.innerHTML = "";
 
