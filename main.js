@@ -25,6 +25,9 @@ class Snake {
 
     origin = () => {
 
+        //clear everything
+        gameArea.innerHTML = "";
+
         //head of snake
         gameArea.innerHTML += `<div style="top: ${this.tail[0].positionY}px; left: ${this.tail[0].positionX}px" id="snake" class="game__snake"></div>`;
         
@@ -32,6 +35,22 @@ class Snake {
         document.getElementById("snake").style.left = `${this.tail[0].positionY}px`;
 
         this.spawnFood();
+    }
+
+    tailOfSnakeUpdate = () => {
+        //tail of snake
+
+        for (let i=this.tail.length-1; i>0; i--) {
+            this.tail[i].positionY = this.tail[i-1].positionY;
+            this.tail[i].positionX = this.tail[i-1].positionX;
+        }
+
+        const x = document.getElementsByClassName('game__snake-body-part');
+
+        for(let i = 0; i < x.length; i++){
+            x[i].style.top = `${this.tail[i+1].positionY}px`;
+            x[i].style.left = `${this.tail[i+1].positionX}px`;
+        }
     }
 
     spawnFood = () => {
@@ -45,14 +64,47 @@ class Snake {
         gameArea.innerHTML += `<div style="top: ${this.foodPositionY}px; left: ${this.foodPositionX}px" id="food" class="game__snake-food"></div>`;
     }
 
+    spawnTailAfterFood = () => {
+        if (this.tail[0].positionX == this.foodPositionX && this.tail[0].positionY == this.foodPositionY) {
+
+            //Add a tail item to the snake's body
+            //Orientation of snake determines which coordinate the tail should be added
+            if (this.orientation == "N") {
+                this.tail.push({positionX: this.tail[this.tail.length-1].positionX, positionY: this.tail[this.tail.length-1].positionY+16});
+            }
+            else if (this.orientation == "S") {
+                this.tail.push({positionX: this.tail[this.tail.length-1].positionX, positionY: this.tail[this.tail.length-1].positionY-16});
+            }
+            else if (this.orientation == "E") {
+                this.tail.push({positionX: this.tail[this.tail.length-1].positionX-16, positionY: this.tail[this.tail.length-1].positionY});
+            }
+            else if (this.orientation == "W") {
+                this.tail.push({positionX: this.tail[this.tail.length-1].positionX+16, positionY: this.tail[this.tail.length-1].positionY});
+            }
+
+            gameArea.innerHTML += `<div style="top: ${this.tail[1].positionY}px; left: ${this.tail[1].positionX}px" class="game__snake-body-part"></div>`;
+            
+            //Remove the food from the GUI when snake head eats the food
+            const previousFood = document.querySelector("#food");
+            previousFood.remove();
+
+            //Add a new food to the screen
+            this.spawnFood();
+        }
+    }
+
     moveUp = () => {
         if (this.orientation == "N") {
 
+            //move the snake's body along with the head
+            this.tailOfSnakeUpdate();
 
             //snake's head UP by 16px 
             this.tail[0].positionY -= 16;
 
             document.getElementById("snake").style.top = `${this.tail[0].positionY}px`;
+
+            this.spawnTailAfterFood();
 
             setTimeout(() => {this.moveUp()}, 500);
         }
@@ -61,12 +113,14 @@ class Snake {
     moveDown = () => {
         if (this.orientation == "S") {
 
+            this.tailOfSnakeUpdate();
 
             //snake's head DOWN by 16px 
             this.tail[0].positionY += 16;
 
-
             document.getElementById("snake").style.top = `${this.tail[0].positionY}px`;
+
+            this.spawnTailAfterFood();
 
             setTimeout(() => {this.moveDown()}, 500);
         }
@@ -75,13 +129,15 @@ class Snake {
     moveLeft = () => {
         if (this.orientation == "W") {
 
+            this.tailOfSnakeUpdate();
 
             //snake's head LEFT by 16px 
             this.tail[0].positionX -= 16;
 
-
             document.getElementById("snake").style.left = `${this.tail[0].positionX}px`;
             
+            this.spawnTailAfterFood();
+
             setTimeout(() => {this.moveLeft()}, 500);
         }
     }
@@ -89,11 +145,14 @@ class Snake {
     moveRight = () => {
         if (this.orientation == "E") {
 
+            this.tailOfSnakeUpdate();
+
             //snake's head RIGHT by 16px 
             this.tail[0].positionX += 16;
 
-
             document.getElementById("snake").style.left = `${this.tail[0].positionX}px`;
+
+            this.spawnTailAfterFood();
 
             setTimeout(() => {this.moveRight()}, 500);
         }
