@@ -19,6 +19,7 @@ let tail = [{
 let foodPositionX = 0;
 let foodPositionY = 0;
 
+//find the width and height of the game area 
 const gameAreaHeight = Math.round(gameArea.getBoundingClientRect().height/16)*16;
 const gameAreaWidth = Math.round(gameArea.getBoundingClientRect().width/16)*16;
 
@@ -37,28 +38,31 @@ origin = () => {
 }
 
 tailOfSnakeUpdate = () => {
-    //tail of snake
 
+    //each tail element has its co-ordinate switched with its corresponding (n-1) neighbour element
     for (let i=tail.length-1; i>0; i--) {
         tail[i].positionY = tail[i-1].positionY;
         tail[i].positionX = tail[i-1].positionX;
     }
 
-    const x = document.getElementsByClassName('game__snake-body-part');
+    const bodyOfSnake = document.getElementsByClassName('game__snake-body-part');
 
-    for(let i = 0; i < x.length; i++){
+    //the new co-ordinates are displayed on screen
+    for(let i = 0; i < bodyOfSnake.length; i++){
         x[i].style.top = `${tail[i+1].positionY}px`;
         x[i].style.left = `${tail[i+1].positionX}px`;
     }
 }
 
 detectWallCollision = () => {
+    //checks if snake head has passed the boundaries of the game area
     if (tail[0].positionY < 0 || tail[0].positionY > gameAreaHeight-16 || tail[0].positionX < 0 || tail[0].positionX > gameAreaWidth-16) {
         gameOver();
     }
 } 
 
 detectSnakeCollisionWithTail = () => {
+    //checks if snake head has the same co-ordinate as one of the snake body elements
     for (let i=1; i<tail.length; i++) {
         if (tail[0].positionX == tail[i].positionX && tail[0].positionY == tail[i].positionY) {
             gameOver();
