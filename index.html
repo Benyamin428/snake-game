@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Snake Game</title>
 </head>
 <body>
@@ -19,16 +22,14 @@
 
         <div class="game" id="gameArea"> 
         </div>
-
+        <i class="fa-solid fa-up">
         <div class="buttons">
-            <button type="button" id="buttonUp">Up</button>
-            <button type="button" id="buttonRight">Right</button>
-            <button type="button" id="buttonDown">Down</button>
-            <button type="button" id="buttonLeft">Left</button>
+            <button type="button" class="buttons__up" id="buttonUp"><i class="fa-solid fa-arrow-up"></i></button>
+            <button type="button" class="buttons__left" id="buttonLeft"><i class="fa-solid fa-arrow-left"></i></button>
+            <button type="button" class="buttons__down" id="buttonDown"><i class="fa-solid fa-arrow-down"></i></button>
+            <button type="button" class="buttons__right" id="buttonRight"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </main>
-    
 </body>
-
     <script src="main.js"></script>
 </html>
