@@ -1,4 +1,5 @@
 const body = document.querySelector("body");
+const scoreBoard = document.querySelector("#score");
 const gameArea = document.querySelector("#gameArea");
 
 const buttonUp = document.querySelector("#buttonUp");
@@ -7,6 +8,8 @@ const buttonDown = document.querySelector("#buttonDown");
 const buttonLeft = document.querySelector("#buttonLeft");
 
 class Snake {
+
+    score;
 
     orientation;
     tail;
@@ -18,6 +21,7 @@ class Snake {
     foodPositionY;
 
     constructor() {
+        this.score = 0;
         this.orientation = "";
         this.tail = [{
             positionX: (Math.round(gameArea.getBoundingClientRect().width/16)*16)/2,
@@ -105,7 +109,12 @@ class Snake {
             }
 
             gameArea.innerHTML += `<div style="top: ${this.tail[1].positionY}px; left: ${this.tail[1].positionX}px" class="game__snake-body-part"></div>`;
-            
+
+            //Update the scoreboard
+            this.score = this.tail.length-1;
+            scoreBoard.innerText = `Score: ${this.score}`;
+
+
             //Remove the food from the GUI when snake head eats the food
             const previousFood = document.querySelector("#food");
             previousFood.remove();
