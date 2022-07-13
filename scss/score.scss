@@ -1,0 +1,7 @@
+@use "./variables" as *;
+
+.score {
+    padding: 1rem;
+    font-family: $font;
+    font-size: 0.8rem;
+}
