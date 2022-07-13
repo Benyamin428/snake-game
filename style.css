@@ -44,6 +44,10 @@ main {
   color: #fff;
 }
 
+.reset {
+  padding: 1rem;
+}
+
 @media screen and (min-width: 768px) {
   .game {
     height: 24rem;

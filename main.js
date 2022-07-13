@@ -1,5 +1,7 @@
 const body = document.querySelector("body");
 const scoreBoard = document.querySelector("#score");
+const resetButton = document.querySelector("#reset");
+
 const gameArea = document.querySelector("#gameArea");
 
 const buttonUp = document.querySelector("#buttonUp");
@@ -109,7 +111,8 @@ spawnTailAfterFood = () => {
     }
 }
 
-gameOver = () => {
+reset = () => {
+    score = 0;
     orientation = "";
     tail = [{
         positionX: gameAreaWidth/2,
@@ -119,11 +122,15 @@ gameOver = () => {
     foodPositionX = 0;
     foodPositionY = 0;
 
-    gameArea.innerHTML = "";
+    setTimeout(() => {origin()}, 750);
+}
+
+gameOver = () => {
 
     gameArea.innerHTML = `<h1 class="game__snake-title">Game Over</h1>`;
 
-    setTimeout(() => {origin()}, 1000);
+    reset();
+
 }
 
 moveUp = () => {
@@ -254,6 +261,8 @@ const keyHandler = (event) => {
 }
 
 origin();
+
+resetButton.addEventListener("click", reset);
 
 body.addEventListener("keydown", keyHandler);
 
