@@ -49,8 +49,8 @@ tailOfSnakeUpdate = () => {
 
     //the new co-ordinates are displayed on screen
     for(let i = 0; i < bodyOfSnake.length; i++){
-        x[i].style.top = `${tail[i+1].positionY}px`;
-        x[i].style.left = `${tail[i+1].positionX}px`;
+        bodyOfSnake[i].style.top = `${tail[i+1].positionY}px`;
+        bodyOfSnake[i].style.left = `${tail[i+1].positionX}px`;
     }
 }
 
