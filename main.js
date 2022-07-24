@@ -85,37 +85,38 @@ const spawnFood = () => {
 }
 
 const spawnTailAfterFood = () => {
-    if (tail[0].positionX == foodPositionX && tail[0].positionY == foodPositionY) {
-
-        //Add a tail item to the snake's body
-        //Orientation of snake determines which coordinate the tail should be added
-        if (orientation == "N") {
-            tail.push({positionX: tail[tail.length-1].positionX, positionY: tail[tail.length-1].positionY+16});
-        }
-        else if (orientation == "S") {
-            tail.push({positionX: tail[tail.length-1].positionX, positionY: tail[tail.length-1].positionY-16});
-        }
-        else if (orientation == "E") {
-            tail.push({positionX: tail[tail.length-1].positionX-16, positionY: tail[tail.length-1].positionY});
-        }
-        else if (orientation == "W") {
-            tail.push({positionX: tail[tail.length-1].positionX+16, positionY: tail[tail.length-1].positionY});
-        }
-
-        gameArea.innerHTML += `<div style="top: ${tail[1].positionY}px; left: ${tail[1].positionX}px" class="game__snake-body-part"></div>`;
-
-        //Update the scoreboard
-        score = tail.length-1;
-        scoreBoard.innerText = `Score: ${score}`;
-
-
-        //Remove the food from the GUI when snake head eats the food
-        const previousFood = document.querySelector("#food");
-        previousFood.remove();
-
-        //Add a new food to the screen
-        spawnFood();
+    if (tail[0].positionX != foodPositionX || tail[0].positionY != foodPositionY) {
+        return;
     }
+
+    //Add a tail item to the snake's body
+    //Orientation of snake determines which coordinate the tail should be added
+    if (orientation == "N") {
+        tail.push({positionX: tail[tail.length-1].positionX, positionY: tail[tail.length-1].positionY+16});
+    }
+    else if (orientation == "S") {
+        tail.push({positionX: tail[tail.length-1].positionX, positionY: tail[tail.length-1].positionY-16});
+    }
+    else if (orientation == "E") {
+        tail.push({positionX: tail[tail.length-1].positionX-16, positionY: tail[tail.length-1].positionY});
+    }
+    else if (orientation == "W") {
+        tail.push({positionX: tail[tail.length-1].positionX+16, positionY: tail[tail.length-1].positionY});
+    }
+
+    gameArea.innerHTML += `<div style="top: ${tail[1].positionY}px; left: ${tail[1].positionX}px" class="game__snake-body-part"></div>`;
+
+    //Update the scoreboard
+    score = tail.length-1;
+    scoreBoard.innerText = `Score: ${score}`;
+
+
+    //Remove the food from the GUI when snake head eats the food
+    const previousFood = document.querySelector("#food");
+    previousFood.remove();
+
+    //Add a new food to the screen
+    spawnFood();
 }
 
 const reset = () => {
@@ -170,38 +171,38 @@ const move = () => {
 
 
 const dealWithRightMovement = () => {
-    clearTimeout(timeout);
     if (orientation == "W" || orientation == "E") {
         return;
     }
     orientation = "E";
+    clearTimeout(timeout);
     move();
 }
 
 const dealWithLeftMovement = () => {
-    clearTimeout(timeout);
     if (orientation == "E" || orientation == "W") {
         return;
     }
     orientation = "W";
+    clearTimeout(timeout);
     move();
 }
 
 const dealWithUpMovement = () => {
-    clearTimeout(timeout);
     if (orientation == "S" || orientation == "N") {
         return;
     }
     orientation = "N";
+    clearTimeout(timeout);
     move();
 }
 
 const dealWithDownMovement = (event) => {
-    clearTimeout(timeout);
     if (orientation == "N" || orientation == "S") {
         return;
     }
     orientation = "S";
+    clearTimeout(timeout);
     move();
 }
 
