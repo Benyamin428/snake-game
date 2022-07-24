@@ -9,6 +9,9 @@ const buttonRight = document.querySelector("#buttonRight");
 const buttonDown = document.querySelector("#buttonDown");
 const buttonLeft = document.querySelector("#buttonLeft");
 
+//for setTimeout function
+let timeout;
+
 let score = 0;
 let orientation = "";
 let tail = [{
@@ -137,110 +140,69 @@ const gameOver = () => {
 
 }
 
-const moveUp = () => {
+const move = () => {
+
+    tailOfSnakeUpdate();
+
     if (orientation == "N") {
-
-        //move the snake's body along with the head
-        tailOfSnakeUpdate();
-
-        //snake's head UP by 16px 
         tail[0].positionY -= 16;
-
         document.getElementById("snake").style.top = `${tail[0].positionY}px`;
-
-        spawnTailAfterFood();
-        detectWallCollision();
-        detectSnakeCollisionWithTail();
-
-        setTimeout(() => {moveUp()}, 200);
     }
-}
-
-const moveDown = () => {
-    if (orientation == "S") {
-
-        tailOfSnakeUpdate();
-
-        //snake's head DOWN by 16px 
+    else if (orientation == "S") {
         tail[0].positionY += 16;
-
         document.getElementById("snake").style.top = `${tail[0].positionY}px`;
-
-        spawnTailAfterFood();
-        detectWallCollision();
-        detectSnakeCollisionWithTail();
-
-        setTimeout(() => {moveDown()}, 200);
     }
-}
-
-const moveLeft = () => {
-    if (orientation == "W") {
-
-        tailOfSnakeUpdate();
-
-        //snake's head LEFT by 16px 
+    else if (orientation == "W") {
         tail[0].positionX -= 16;
-
         document.getElementById("snake").style.left = `${tail[0].positionX}px`;
-        
-        spawnTailAfterFood();
-        detectWallCollision();
-        detectSnakeCollisionWithTail();
-
-
-        setTimeout(() => {moveLeft()}, 200);
     }
-}
-
-const moveRight = () => {
-    if (orientation == "E") {
-
-        tailOfSnakeUpdate();
-
-        //snake's head RIGHT by 16px 
+    else if (orientation == "E") {
         tail[0].positionX += 16;
-
         document.getElementById("snake").style.left = `${tail[0].positionX}px`;
-
-        spawnTailAfterFood();
-        detectWallCollision();
-        detectSnakeCollisionWithTail();
-
-        setTimeout(() => {moveRight()}, 200);
     }
+
+    spawnTailAfterFood();
+    detectWallCollision();
+    detectSnakeCollisionWithTail();
+
+    timeout = setTimeout(move, 200);
 }
 
-const dealWithRightMovement = (event) => {
+
+const dealWithRightMovement = () => {
+    clearTimeout(timeout);
     if (orientation == "W" || orientation == "E") {
         return;
     }
     orientation = "E";
-    moveRight();
+    move();
 }
 
-const dealWithLeftMovement = (event) => {
+const dealWithLeftMovement = () => {
+    clearTimeout(timeout);
     if (orientation == "E" || orientation == "W") {
         return;
     }
     orientation = "W";
-    moveLeft();
+    move();
 }
 
-const dealWithUpMovement = (event) => {
+const dealWithUpMovement = () => {
+    clearTimeout(timeout);
     if (orientation == "S" || orientation == "N") {
         return;
     }
     orientation = "N";
-    moveUp();
+    move();
 }
 
-const dealWithDownMovement = (event) =>{
+const dealWithDownMovement = (event) => {
+    clearTimeout(timeout);
     if (orientation == "N" || orientation == "S") {
         return;
     }
     orientation = "S";
-    moveDown();
+    move();
 }
 
 const keyHandler = (event) => {
