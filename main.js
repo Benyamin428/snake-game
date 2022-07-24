@@ -23,7 +23,7 @@ let foodPositionY = 0;
 const gameAreaHeight = Math.round(gameArea.getBoundingClientRect().height/16)*16;
 const gameAreaWidth = Math.round(gameArea.getBoundingClientRect().width/16)*16;
 
-origin = () => {
+const origin = () => {
 
     //clear everything
     gameArea.innerHTML = "";
@@ -37,7 +37,7 @@ origin = () => {
     spawnFood();
 }
 
-tailOfSnakeUpdate = () => {
+const tailOfSnakeUpdate = () => {
 
     //each tail element has its co-ordinate switched with its corresponding (n-1) neighbour element
     for (let i=tail.length-1; i>0; i--) {
@@ -54,14 +54,14 @@ tailOfSnakeUpdate = () => {
     }
 }
 
-detectWallCollision = () => {
+const detectWallCollision = () => {
     //checks if snake head has passed the boundaries of the game area
     if (tail[0].positionY < 0 || tail[0].positionY > gameAreaHeight-16 || tail[0].positionX < 0 || tail[0].positionX > gameAreaWidth-16) {
         gameOver();
     }
 } 
 
-detectSnakeCollisionWithTail = () => {
+const detectSnakeCollisionWithTail = () => {
     //checks if snake head has the same co-ordinate as one of the snake body elements
     for (let i=1; i<tail.length; i++) {
         if (tail[0].positionX == tail[i].positionX && tail[0].positionY == tail[i].positionY) {
@@ -70,7 +70,7 @@ detectSnakeCollisionWithTail = () => {
     }
 }
 
-spawnFood = () => {
+const spawnFood = () => {
     //Finds a random coordinate between 0 and the boundary of the game area that is also a multiple of 16
     const randomFoodPositionY = Math.random() * (gameAreaHeight)
     foodPositionY = randomFoodPositionY - (randomFoodPositionY % 16);
@@ -81,7 +81,7 @@ spawnFood = () => {
     gameArea.innerHTML += `<div style="top: ${foodPositionY}px; left: ${foodPositionX}px" id="food" class="game__snake-food"></div>`;
 }
 
-spawnTailAfterFood = () => {
+const spawnTailAfterFood = () => {
     if (tail[0].positionX == foodPositionX && tail[0].positionY == foodPositionY) {
 
         //Add a tail item to the snake's body
@@ -115,7 +115,7 @@ spawnTailAfterFood = () => {
     }
 }
 
-reset = () => {
+const reset = () => {
     score = 0;
     orientation = "";
     tail = [{
@@ -129,7 +129,7 @@ reset = () => {
     setTimeout(() => {origin()}, 750);
 }
 
-gameOver = () => {
+const gameOver = () => {
 
     gameArea.innerHTML = `<h1 class="game__snake-title">Game Over</h1>`;
 
@@ -137,7 +137,7 @@ gameOver = () => {
 
 }
 
-moveUp = () => {
+const moveUp = () => {
     if (orientation == "N") {
 
         //move the snake's body along with the head
@@ -156,7 +156,7 @@ moveUp = () => {
     }
 }
 
-moveDown = () => {
+const moveDown = () => {
     if (orientation == "S") {
 
         tailOfSnakeUpdate();
@@ -174,7 +174,7 @@ moveDown = () => {
     }
 }
 
-moveLeft = () => {
+const moveLeft = () => {
     if (orientation == "W") {
 
         tailOfSnakeUpdate();
@@ -193,7 +193,7 @@ moveLeft = () => {
     }
 }
 
-moveRight = () => {
+const moveRight = () => {
     if (orientation == "E") {
 
         tailOfSnakeUpdate();
